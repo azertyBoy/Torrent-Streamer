@@ -1,0 +1,27 @@
+homesoft_torrent_streamer_homepage:
+    path:     /
+    defaults: { _controller: HomesoftTorrentStreamerBundle:Default:index }
+
+homesoft_torrent_streamer_search:
+    path:   /search
+    defaults: { _controller: HomesoftTorrentStreamerBundle:Default:search }
+    requirements:
+        methods: POST
+    options:
+        expose: true
+
+homesoft_torrent_streamer_play:
+    path:   /play-torrent-file
+    defaults: { _controller: HomesoftTorrentStreamerBundle:Default:playTorrentFile }
+    requirements:
+        methods: POST
+    options:
+        expose: true
+
+homesoft_torrent_streamer_play_t411_torrent:
+    path:   /play-t411-torrent-file/{torrentId}
+    defaults: { _controller: HomesoftTorrentStreamerBundle:Default:playT411TorrentFile }
+    requirements:
+        methods: POST
+    options:
+        expose: true

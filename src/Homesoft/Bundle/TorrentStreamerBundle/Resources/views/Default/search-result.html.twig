@@ -1,0 +1,30 @@
+{% import _self as localMacro %}
+
+{% macro displayTorrent(torrentData) %}
+    <tr>
+        <td>
+            <a href="javascript:playFilm({{ torrentData.id }})"><span class="glyphicon glyphicon-film"></span></a>
+        </td>
+        <td>
+            <p>{{ torrentData.name }}</p>
+        </td>
+        <td>
+            <p>{{ torrentData.size }}</p>
+        </td>
+        <td>
+            <p>{{ torrentData.seeders }}</p>
+        </td>
+    </tr>
+{% endmacro %}
+
+<table class="table">
+    <tr>
+        <th>Options</th>
+        <th>Nom</th>
+        <th>Taille</th>
+        <th>Emetteurs</th>
+    </tr>
+{% for torrent in torrents %}
+    {{ localMacro.displayTorrent(torrent) }}
+{% endfor %}
+</table>
