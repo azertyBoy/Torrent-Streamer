@@ -25,3 +25,11 @@ homesoft_torrent_streamer_play_t411_torrent:
         methods: POST
     options:
         expose: true
+
+homesoft_torrent_streamer_play_cpasbien_torrent:
+    path:   /play-cpasbien-torrent-file
+    defaults: { _controller: HomesoftTorrentStreamerBundle:Default:playCPasBienTorrentFile }
+    requirements:
+        methods: POST
+    options:
+        expose: true

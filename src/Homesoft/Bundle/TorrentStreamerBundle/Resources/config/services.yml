@@ -5,3 +5,6 @@ services:
     homesoft_torrent_streamer.t411_rest_client:
         class: Homesoft\Bundle\TorrentStreamerBundle\Utils\T411RestClient
         arguments: [@guzzle.client, %t411_username%, %t411_password%,"%kernel.root_dir%/cache/%kernel.environment%"]
+    homesoft_torrent_streamer.cpasbien_extractor:
+        class: Homesoft\Bundle\TorrentStreamerBundle\Utils\CPasBienExtractor
+        arguments: [@slugify, "%kernel.root_dir%/cache/%kernel.environment%"]

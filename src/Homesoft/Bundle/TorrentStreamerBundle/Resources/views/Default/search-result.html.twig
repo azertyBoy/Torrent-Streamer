@@ -1,9 +1,9 @@
 {% import _self as localMacro %}
 
-{% macro displayTorrent(torrentData) %}
+{% macro displayT411Torrent(torrentData) %}
     <tr>
         <td>
-            <a href="javascript:playFilm({{ torrentData.id }})"><span class="glyphicon glyphicon-film"></span></a>
+            <a href="javascript:playT411Film({{ torrentData.id }})"><span class="glyphicon glyphicon-film"></span></a>
         </td>
         <td>
             <p>{{ torrentData.name }}</p>
@@ -17,14 +17,58 @@
     </tr>
 {% endmacro %}
 
-<table class="table">
+{% macro displayCPasBienTorrent(torrentData) %}
     <tr>
-        <th>Options</th>
-        <th>Nom</th>
-        <th>Taille</th>
-        <th>Emetteurs</th>
+        <td>
+            <a href='javascript:playCPasBienFilm("{{ torrentData.urlCard }}")'><span class="glyphicon glyphicon-film"></span></a>
+        </td>
+        <td>
+            <p>{{ torrentData.title }}</p>
+        </td>
+        <td>
+            <p>{{ torrentData.size }}</p>
+        </td>
+        <td>
+            <p>{{ torrentData.seeders }}</p>
+        </td>
     </tr>
-{% for torrent in torrents %}
-    {{ localMacro.displayTorrent(torrent) }}
-{% endfor %}
-</table>
+{% endmacro %}
+
+<div class="col-md-12">
+    <h3>T411</h3>
+    {% if t411Torrents|length > 0 %}
+        <table class="table">
+            <tr>
+                <th>Options</th>
+                <th>Nom</th>
+                <th>Taille</th>
+                <th>Emetteurs</th>
+            </tr>
+            {% for t411Torrent in t411Torrents %}
+                {{ localMacro.displayT411Torrent(t411Torrent) }}
+            {% endfor %}
+        </table>
+    {% else %}
+        <p class="text-center">Aucun torrent en provenance de T411.</p>
+    {% endif %}
+</div>
+
+
+<div class="col-md-12">
+    <h3>CPasBien</h3>
+    {% if cpasbienTorrents|length > 0 %}
+        <table class="table">
+            <tr>
+                <th>Options</th>
+                <th>Nom</th>
+                <th>Taille</th>
+                <th>Emetteurs</th>
+            </tr>
+            {% for cpasbienTorrent in cpasbienTorrents %}
+                {{ localMacro.displayCPasBienTorrent(cpasbienTorrent) }}
+            {% endfor %}
+        </table>
+    {% else %}
+        <p class="text-center">Aucun torrent en provenance de CPasBien.</p>
+    {% endif %}
+</div>

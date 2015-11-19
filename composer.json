@@ -16,7 +16,9 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "misd/guzzle-bundle": "^1.1",
         "jms/serializer-bundle": "^1.1",
-        "friendsofsymfony/jsrouting-bundle": "^1.5"
+        "friendsofsymfony/jsrouting-bundle": "^1.5",
+        "sunra/php-simple-html-dom-parser": "v1.5.0",
+        "cocur/slugify": "^1.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

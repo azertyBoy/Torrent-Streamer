@@ -63,7 +63,7 @@ search = function (string) {
     })
         .done(function (response) {
             document.getElementById("search-result-container").innerHTML = response.torrentsView;
-            document.getElementById("result-count").innerHTML = response.result.total;
+            document.getElementById("result-count").innerHTML = response.resultCount;
         })
         .fail(function(response) {
             alert('Une erreur à eu lieu durant la recherche.');
@@ -71,7 +71,7 @@ search = function (string) {
 };
 
 //Lecture du film trouvé lors de la recherche
-playFilm = function (torrentId){
+playT411Film = function (torrentId){
     $.ajax({
         type: "POST",
         url: Routing.generate('homesoft_torrent_streamer_play_t411_torrent', { torrentId: torrentId})
@@ -83,3 +83,19 @@ playFilm = function (torrentId){
             alert('Une erreur à eu lieu lors du lancement du streaming à partir d\'un torrent t411.');
         });
 };
+
+
+playCPasBienFilm = function (cpasbienUrl){
+    $.ajax({
+        type: "POST",
+        url: Routing.generate('homesoft_torrent_streamer_play_cpasbien_torrent'),
+        data: {'cpasbienUrl': cpasbienUrl}
+    })
+        .done( function (response) {
+            window.open(response.url,'_blank');
+        })
+        .fail(function (response) {
+            alert('Une erreur à eu lieu lors du lancement du streaming à partir d\'un torrent CPasBien.');
+        });
+};
+
