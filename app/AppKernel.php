@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Homesoft\Bundle\TorrentStreamerBundle\HomesoftTorrentStreamerBundle(),
             new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Homesoft\Bundle\TorrentStreamerBundle\Utils\T411RestClient;
 use Homesoft\Bundle\TorrentStreamerBundle\Form\Type\UploadTorrentFileType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Homesoft\Bundle\TorrentStreamerBundle\Utils\CPasBienExtractor;
 
 class DefaultController extends Controller
 {
@@ -21,6 +22,17 @@ class DefaultController extends Controller
          * @var T411RestClient $result
          */
         return $this->get('homesoft_torrent_streamer.t411_rest_client');
+    }
+
+    /**
+     * @return CPasBienExtractor
+     */
+    private function getCPasBienExtractor()
+    {
+        /**
+         * @return CPasBienExtractor
+         */
+        return $this->get('homesoft_torrent_streamer.cpasbien_extractor');
     }
 
     private function getUploadTorrentFileForm()
@@ -37,10 +49,16 @@ class DefaultController extends Controller
     public function searchAction(Request $request)
     {
         $searchTags = $request->request->get('search');
-        $result = $this->getT411RestClient()->search($searchTags);
+        $t411Result = $this->getT411RestClient()->search($searchTags);
+        $cpasbienResult = $this->getCPasBienExtractor()->search($searchTags);
         $response = array(
-            'torrentsView'  => $this->renderView('HomesoftTorrentStreamerBundle:Default:search-result.html.twig', array('torrents' => $result->torrents)),
-            'result'        => $result,
+            'torrentsView'  => $this->renderView(   'HomesoftTorrentStreamerBundle:Default:search-result.html.twig',
+                                                    array(
+                                                        't411Torrents'      => $t411Result->torrents,
+                                                        'cpasbienTorrents'  => $cpasbienResult
+                                                    )),
+            'result'        => $t411Result,
+            'resultCount'   => $t411Result->total + count($cpasbienResult),
         );
         return new JsonResponse($response);
     }
@@ -68,6 +86,20 @@ class DefaultController extends Controller
     public function playT411TorrentFileAction($torrentId)
     {
         $torrentPath = $this->getT411RestClient()->downloadTorrent($torrentId);
+        $streamerService = $this->get('homesoft_torrent_streamer.torrent_streamer');
+        $response = array(
+            'status'        => true,
+            'url'           => $streamerService->startStreamer($torrentPath),
+        );
+        return new JsonResponse($response);
+    }
+
+    public function playCPasBienTorrentFileAction(Request $request)
+    {
+        $url = $request->request->get('cpasbienUrl');
+        if(empty($url))
+            throw new \Exception('L\'url n\'est pas trouvable.');
+        $torrentPath = $this->getCPasBienExtractor()->downloadTorrentFile($url);
         $streamerService = $this->get('homesoft_torrent_streamer.torrent_streamer');
         $response = array(
             'status'        => true,
